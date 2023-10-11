@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Side from "./Side";
+import Bottom from "./Bottom";
 
 export default function Scene(props: any) {
   const sceneRef = useRef();
@@ -25,8 +26,6 @@ export default function Scene(props: any) {
         sceneRef.current.appendChild(renderer.domElement);
       }
 
-      // document.body.appendChild(renderer.domElement);
-
       camera.position.z = 5;
       controls.update();
 
@@ -45,57 +44,54 @@ export default function Scene(props: any) {
   return (
     <>
       <div ref={sceneRef}></div>
-      <Side
+      {props.coords.map(
+        (
+          trian: any,
+          index: number // working
+        ) => (
+          <>
+            <Side
+              scene={scene}
+              color="red"
+              coords={[
+                0, // x
+                0, // y
+                props.height, // z  A
+                trian[0][0], // P
+                trian[0][1],
+                0, // vertex 2
+                trian[1][0], // P(i)
+                trian[1][1],
+                0, // vertex 3
+              ]}
+              renderer={renderer}
+              camera={camera}
+            ></Side>
+            <Side
+              scene={scene}
+              color="red"
+              coords={[
+                0, // x
+                0, // y
+                props.height, // z  A
+                trian[2][0], // P
+                trian[2][1],
+                0, // vertex 2
+                trian[1][0], // P(i)
+                trian[1][1],
+                0, // vertex 3
+              ]}
+              renderer={renderer}
+              camera={camera}
+            ></Side>
+          </>
+        )
+      )}
+      <Bottom
+        segments={props.segments}
         scene={scene}
-        color="red"
-        coords={[
-          0, // x
-          2, // y
-          0, // z vertex 1 vershina
-          1.0,
-          0,
-          0, // vertex 2
-          -1.0,
-          0,
-          0, // vertex 3
-        ]}
-        renderer={renderer}
-        camera={camera}
-      ></Side>
-      <Side
-        scene={scene}
-        color="green"
-        coords={[
-          0, // x
-          2, // y
-          0, // z vertex 1 vershina
-          1.0,
-          0,
-          0, // vertex 2
-          -1.0,
-          0,
-          -2, // vertex 3
-        ]}
-        renderer={renderer}
-        camera={camera}
-      ></Side>
-      <Side
-        scene={scene}
-        color="white"
-        coords={[
-          0, // x
-          2, // y
-          0, // z vertex 1 vershina
-          -1.0,
-          0,
-          0, // vertex 2
-          -1.0,
-          0,
-          -2, // vertex 3
-        ]}
-        renderer={renderer}
-        camera={camera}
-      ></Side>
+        radius={props.radius}
+      ></Bottom>
       ;
     </>
   );

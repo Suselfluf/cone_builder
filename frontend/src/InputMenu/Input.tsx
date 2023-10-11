@@ -1,16 +1,19 @@
 import axios from "axios";
 import React, { useState } from "react";
 
-export default function Input() {
+export default function Input(props: any) {
   const handleFormSubmit = (form: EventTarget): void => {
     const apiUrl = "http://127.0.0.1:5000/trian";
-    axios.post(apiUrl, form).then((resp) => {
-      console.log(resp);
-    });
-    set_height(3);
+    axios
+      .post(apiUrl, form)
+      .then((resp) => {
+        props.change_coords(resp.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // set_height(3);
   };
-
-  const [height, set_height] = useState<number>(2);
 
   return (
     <>
@@ -24,15 +27,33 @@ export default function Input() {
         >
           <div className="height_input">
             <p>Height</p>
-            <input type="number" name="height" />
+            <input
+              onChange={(e) => {
+                props.handle_height_change(e.target.value);
+              }}
+              type="number"
+              name="height"
+            />
           </div>
           <div className="radius_input">
             <p>Radius</p>
-            <input type="number" name="radius" />
+            <input
+              onChange={(e) => {
+                props.handle_radius_change(e.target.value);
+              }}
+              type="number"
+              name="radius"
+            />
           </div>
           <div className="segments_input">
             <p>Number of segments</p>
-            <input type="number" name="segmentsN" />
+            <input
+              onChange={(e) => {
+                props.handle_segments_change(e.target.value);
+              }}
+              type="number"
+              name="segmentsN"
+            />
           </div>
           <button>Submit</button>
         </form>

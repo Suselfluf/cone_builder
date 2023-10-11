@@ -1,7 +1,7 @@
 from flask import Flask, request
 from flask_cors import CORS
 import os 
-from werkzeug.utils import secure_filename
+import math
 
 app = Flask(__name__)
 CORS(app)
@@ -12,9 +12,16 @@ def hello_world():
 
 @app.route("/trian", methods = ["POST"])
 def trian():
-    print(request.form.get('height'))
-    print(request.form.get('radius'))
-    # height = request.form.get("height")
-    # radius = request.form.get("radius")
-    # segmentsN = request.form.get("segmentsN")
-    return 'Numbers send successfully', 200
+    radius = int(request.form.get('radius'))
+    segments = int(request.form.get('segmentsN'))
+    res = []
+    N = 0
+    for index in range(segments):
+        N = N + 1
+        res.append([[radius * math.cos(2 * math.pi * N / segments),radius * math.sin(2 * math.pi * N / segments)],[radius * math.cos(2 * math.pi * (N + 1) / segments),radius * math.sin(2 * math.pi * (N + 1) / segments)], [radius * math.cos(2 * math.pi * (N + 2) / segments),radius * math.sin(2 * math.pi * (N + 2) / segments)]])
+    print(res)
+    print(N)
+    
+    
+   
+    return res, 200
