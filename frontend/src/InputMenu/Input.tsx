@@ -1,5 +1,4 @@
 import axios from "axios";
-import React, { useState } from "react";
 
 export default function Input(props: any) {
   const handleFormSubmit = (form: EventTarget): void => {
@@ -12,7 +11,6 @@ export default function Input(props: any) {
       .catch((err) => {
         console.log(err);
       });
-    // set_height(3);
   };
 
   return (
